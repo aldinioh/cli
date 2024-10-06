@@ -23,7 +23,7 @@ impl CliCommand {
             Some(command) => {
                 match command {
                     "echo" => {
-                        
+                        command_executer::echo_command(&self);
                         Some(CommandType::Echo) 
                     },
                     "cat" => {
@@ -107,6 +107,11 @@ fn analyse_command() -> CliCommand {
 
 pub mod command_executer {
     use super::CliCommand;
+
+    pub fn echo_command(command: &CliCommand) {
+        let new_output = command.input.split_whitespace().filter(|&element| element != "echo").collect::<Vec<&str>>().join(" ");
+        command.print_to_console(format!("{}", new_output));
+    }
 
     pub fn help_command(command: &CliCommand) {
         command.print_to_console(String::from(
