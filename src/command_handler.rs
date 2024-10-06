@@ -20,7 +20,7 @@ impl CliCommand {
     }
     
     fn get_commmand(&self) -> Option<CommandType> {
-        let input_iter = self.input.split_whitespace().next().unwrap();
+        let input_iter = self.input.split_whitespace().next()?;
         match input_iter {
             "echo" => return Some(CommandType::Echo),
             "cat" => return Some(CommandType::Cat),
@@ -57,8 +57,15 @@ pub fn capture_cli() {
         command: None
     };
 
-    if command.input.is_empty() {
-        command.print_to_console(String::from("No input found."));
+    if Option::is_none(&command.command) {
+        command.print_to_console(String::from(
+r#"----------------------------------------
+No input found!
+
+Use `help` to see available commands.
+----------------------------------------"#, 
+        ));
+        return;
     }
 
     command.run_command();
