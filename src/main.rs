@@ -1,5 +1,10 @@
-pub mod command_handler;
+use console::capture_cli;
+
+pub mod console;
 
 fn main() {
-    command_handler::capture_cli();
+    println!("Command Prompt");
+    loop { 
+        capture_cli();
+    }
 }
