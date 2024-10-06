@@ -22,12 +22,30 @@ impl CliCommand {
         match self.input.trim().split_whitespace().next() {
             Some(command) => {
                 match command {
-                    "echo" => Some(CommandType::Echo),
-                    "cat" => Some(CommandType::Cat),
-                    "ls" => Some(CommandType::Ls),
-                    "find" => Some(CommandType::Find),
-                    "group" => Some(CommandType::Group),
-                    "help" => Some(CommandType::Help),
+                    "echo" => {
+                        
+                        Some(CommandType::Echo) 
+                    },
+                    "cat" => {
+
+                        Some(CommandType::Cat) 
+                    }
+                    "ls" => {
+
+                        Some(CommandType::Ls)
+                    },
+                    "find" => {
+
+                        Some(CommandType::Find)
+                    },
+                    "group" => {
+
+                        Some(CommandType::Group)
+                    },
+                    "help" => {
+                        command_executer::help_command(&self);
+                        Some(CommandType::Help)
+                    },
                     _ => {
                         // Invalid command handling
                         self.print_to_console(format!(
@@ -42,7 +60,7 @@ Use `help` to see available commands.
                     }
                 }
             }
-            None => None
+            None => return None
         }
     }
     
@@ -69,11 +87,11 @@ pub fn capture_cli() {
     
     if command.input.is_empty() {
         command.print_to_console(String::from(
-            r#"----------------------------------------
-            No input found!
-            
-            Use `help` to see available commands.
-            ----------------------------------------"#, 
+r#"----------------------------------------
+No input found!
+
+Use `help` to see available commands.
+----------------------------------------"#, 
         ));
         return;
     }
@@ -90,7 +108,7 @@ fn analyse_command() -> CliCommand {
 pub mod command_executer {
     use super::CliCommand;
 
-    fn _help_command(command: CliCommand) {
+    pub fn help_command(command: &CliCommand) {
         command.print_to_console(String::from(
 r#"----------------------------------------
 Available commands:
